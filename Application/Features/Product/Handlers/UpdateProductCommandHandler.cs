@@ -35,7 +35,9 @@ namespace Application.Features.Product.Handlers
                     product.ProductName = request.ProductName;
                     product.Price = request.Price;
                     product.Description = request.Description;
+                    product.ModifiedOn = DateTime.UtcNow;
                     _productRepository.Update(product);
+                   await _productRepository.SaveChangeAsync();
                     return _mapper.Map<UpdateProductCommandResponse>(request);
                 }
             }
@@ -46,7 +48,6 @@ namespace Application.Features.Product.Handlers
             public UpdateProductCommandValidator()
             {
                 RuleFor(x => x.ProductName).NotEmpty();
-                RuleFor(x => x.Price).Equal(0);
                 RuleFor(x => x.Description).MinimumLength(2);
             }
         }

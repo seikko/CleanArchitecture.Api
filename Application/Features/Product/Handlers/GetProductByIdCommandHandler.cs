@@ -20,13 +20,23 @@ namespace Application.Features.Product.Handlers
             _mapper = mapper;
         }
 
-        public async  Task<GetProductByIdQueryResponse> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
-        { 
-            if(request.Id == Guid.Empty) return null;
-            var product = await _productRepository.GetAsync<Domain.Entities.Product>("Select * from Products with (nolock) where Id = @p1",new { p1 = request.Id});
-            if(product == null) return null;
-            return _mapper.Map<GetProductByIdQueryResponse>(product);
-            
+
+        public async Task<GetProductByIdQueryResponse> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
+        {
+            if (request.Id == Guid.Empty) return null;
+            var product = await _productRepository.GetAsync<Domain.Entities.Product>("Select * from Products with (nolock) where Id = @p1", new { p1 = request.Id });
+            if (product == null) return null;
+            return new GetProductByIdQueryResponse()
+            {
+
+                Description = product.Description ?? "",
+                Id = product.Id,
+                Price = product.Price,
+                ProductName = product.ProductName ?? ""
+
+            };
+
+
         }
     }
 }

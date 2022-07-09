@@ -24,6 +24,7 @@ namespace Application.Features.Product.Handlers
             if (request.Id != Guid.Empty)
             {
                 _productRepository.Delete(request.Id);
+                await _productRepository.SaveChangeAsync();
                 return true;
             }
             return false;

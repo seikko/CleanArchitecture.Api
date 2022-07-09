@@ -30,6 +30,7 @@ namespace Application.Features.Product.Handlers
             {
                 var product = _mapper.Map<Domain.Entities.Product>(request);
                 await _productRepository.AddAsync(product);
+                await  _productRepository.SaveChangeAsync();
                 return new CreateProductCommandResponse()
                 {
                     Description = product.Description ?? "",
@@ -45,7 +46,6 @@ namespace Application.Features.Product.Handlers
             public CreateProductCommandValidator()
             {
                 RuleFor(x=> x.ProductName).NotEmpty();
-                RuleFor(x => x.Price).Equal(0);
                 RuleFor(x => x.Description).MinimumLength(2);
             }
         }

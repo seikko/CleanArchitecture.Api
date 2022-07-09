@@ -12,7 +12,10 @@ namespace Domain.Settings
     {
         public virtual  void Configure(EntityTypeBuilder<T> builder)
         {
-            throw new NotImplementedException();
+
+            builder.Property(k => k.Id).HasColumnName("Id");
+            builder.Property(k => k.CreatedOn).HasColumnName("CreatedOn");
+            builder.Property(k => k.ModifiedOn).HasColumnName("ModifiedOn");
         }
     }
 }

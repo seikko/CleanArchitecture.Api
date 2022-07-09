@@ -1,10 +1,6 @@
 ﻿using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Settings
 {
@@ -12,7 +8,10 @@ namespace Domain.Settings
     {
         public override void Configure(EntityTypeBuilder<Product> builder)
         {
-            base.Configure(builder);
+            builder.ToTable("Product").HasKey(k => k.Id); 
+            builder.Property(k => k.ProductName).HasColumnName("ProductName");
+            builder.Property(k => k.Price).HasColumnName("Price");
+            builder.Property(k => k.Description).HasColumnName("Description");
         }
     }
 }

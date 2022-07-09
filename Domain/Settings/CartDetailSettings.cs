@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,11 @@ namespace Domain.Settings
     {
         public override void Configure(EntityTypeBuilder<CartDetail> builder)
         {
-            base.Configure(builder);
+            builder.ToTable("CartDetail").HasKey(k => k.Id); 
+            builder.Property(k => k.ProductId).HasColumnName("ProductId");
+            builder.Property(k => k.CartId).HasColumnName("CartId");
+            builder.Property(k => k.Price).HasColumnName("Price");
+            builder.Property(k => k.Quantity).HasColumnName("Quantity");
         }
     }
 }

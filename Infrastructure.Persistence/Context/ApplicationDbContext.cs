@@ -13,7 +13,7 @@ namespace Infrastructure.Persistence.Context
         public DbSet<Product> Products { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Cart> Carts { get; set; }
-        public DbSet<CartDetail> CartDetails { get; set; }
+        public DbSet<CartDetail> CartDetail { get; set; }
 
 
        

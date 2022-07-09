@@ -9,7 +9,6 @@ namespace Domain.Entities
     public class Cart:BaseEntity
     {
         public Guid CustomerId { get; set; }
-        public decimal TotalAmount { get; set; }
-        public List<CartDetail>? Items { get; set; }
+        public decimal TotalAmount { get; set; } 
     }
 }

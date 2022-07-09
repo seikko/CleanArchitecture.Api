@@ -1,4 +1,10 @@
-﻿using AutoMapper;
+﻿using Application.Features.Cart.Commands.Request;
+using Application.Features.Cart.Commands.Response;
+using Application.Features.Product.Commands.Request;
+using Application.Features.Product.Commands.Response;
+using Application.Features.Product.Queries.Response;
+using AutoMapper;
+using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +17,15 @@ namespace Application.Mappings
     {
         public GeneralProfile()
         {
+            CreateMap<CreateProductCommandRequest, Product>();
+            CreateMap<UpdateProductCommandRequest, Product>();
+            CreateMap<CreateCartCommandRequest, Product>();
+            CreateMap<Product, CreateCartCommandRequest>();
+            CreateMap<UpdateProductCommandRequest, UpdateProductCommandResponse>();
+            CreateMap<CreateCartCommandResponse, Cart>();
+
+            CreateMap<Product, UpdateProductCommandResponse>(); 
+
 
         }
     }
