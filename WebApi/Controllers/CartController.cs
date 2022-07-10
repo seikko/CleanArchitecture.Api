@@ -1,7 +1,9 @@
 ﻿using Application.Features.Cart.Commands.Request;
+using Application.Features.Cart.Queries.Request;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace WebApi.Controllers
@@ -18,10 +20,24 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCart([FromQuery]CreateCartCommandRequest request)
+        public async Task<IActionResult> CreateCart([FromQuery] CreateCartCommandRequest request)
         {
             return Ok(await _mediator.Send(request));
         }
-         
+        [HttpGet("getCartById")]
+        public async Task<IActionResult> GetCartById(Guid id)
+        {
+            if (id == Guid.Empty) return BadRequest();
+            return Ok(await _mediator.Send(new GetCartByIdQuery { CartId = id }));
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult>DeleteCartById(Guid id)
+        {
+            if(id == Guid.Empty) return BadRequest();
+            return Ok(await _mediator.Send(new DeleteCartCommandRequest { CartId = id }));
+        }
+
+
     }
 }

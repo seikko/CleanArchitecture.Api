@@ -3,6 +3,7 @@ using Application.Features.Cart.Commands.Response;
 using Application.Interfaces;
 using AutoMapper;
 using Domain.Entities;
+using FluentValidation;
 using MediatR;
 using System;
 using System.Linq;
@@ -17,7 +18,6 @@ namespace Application.Features.Cart.Handlers
         private readonly ICartDetailRepository _cartDetailRepository;
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
-
         public CreateCartCommandHandler(ICartRepository cartRepository, IProductRepository productRepository, ICartDetailRepository cartDetailRepository, IMapper mapper)
         {
             _cartRepository = cartRepository;
@@ -25,7 +25,6 @@ namespace Application.Features.Cart.Handlers
             _productRepository = productRepository;
             _mapper = mapper;
         }
-
         public async Task<CreateCartCommandResponse> Handle(CreateCartCommandRequest request, CancellationToken cancellationToken)
         {
             var cart = await _cartRepository.GetByIdAsync(request.CartId);
@@ -63,14 +62,13 @@ namespace Application.Features.Cart.Handlers
                     {
                         product.Quantity = request.Quantity;
                         _cartDetailRepository.Update(product);
-                       await _cartDetailRepository.SaveChangeAsync();
+                        await _cartDetailRepository.SaveChangeAsync();
                         CalculationCart(cart, product);
                         return _mapper.Map<CreateCartCommandResponse>(cart);
 
                     }
                 }
                 return null;
-
             }
         }
         private async void CalculationCart(Domain.Entities.Cart cart, CartDetail detail)
@@ -80,6 +78,15 @@ namespace Application.Features.Cart.Handlers
             await _cartRepository.SaveChangeAsync();
             await _cartDetailRepository.SaveChangeAsync();
 
+        }
+        public class CreateCartCommandValidator : AbstractValidator<CreateCartCommandRequest>
+        {
+            public CreateCartCommandValidator()
+            {
+                RuleFor(x => x.CartId).NotEmpty();
+                RuleFor(x => x.ProductId).NotEmpty();
+                RuleFor(x => x.Quantity).GreaterThan(0);
+            }
         }
     }
 }

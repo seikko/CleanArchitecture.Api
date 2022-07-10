@@ -22,7 +22,8 @@ namespace Application.Features.Product.Handlers
         }
 
         public async Task<UpdateProductCommandResponse> Handle(UpdateProductCommandRequest request, CancellationToken cancellationToken)
-        {
+        { 
+
             if (request.Id != Guid.Empty)
             {
                 var product = await _productRepository.GetByIdAsync(request.Id);

@@ -5,8 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Cart\Queries\Response\" />
-    <Folder Include="Features\Cart\Queries\Request\" />
     <Folder Include="Features\Customer\" />
   </ItemGroup>
 
